@@ -25,6 +25,44 @@ class Graph:
                     print(neighbor.name, "already visited! Skipping...")
             print("----------------------------------------")
         print("---------------End of BFS---------------")
+        
+    def path_finder(self, source, destination):
+        path_arr = []
+        path_arr.append(source)
+        candidates = list()
+        source.cost = 0
+        source.visited = True
+        if source.name == destination.name: 
+            print("The source is the destination, hence cost is zero and no traversal is needed")
+        else:
+            candidates.append(source)
+            while len(candidates) > 0:
+                candidate = candidates.pop()
+                for neighbour in candidate.neighbors:
+                    if not neighbour.visited:
+                        neighbour.cost = candidate.cost + 1
+                        neighbour.visited = True        
+                        if neighbour.name == destination.name:
+                            path_arr.append(neighbour)
+                        else:
+                            candidates.append(neighbour)
+                            path_arr.append(neighbour)
+        for i in range(len(path_arr)):
+            try:
+                #print(path_arr[i].name, path_arr[i].cost, path_arr[i + 1].name, path_arr[i + 1].cost)
+                if path_arr[i].cost == i and (path_arr[i] in path_arr[i + 1].neighbors):
+                    pass
+                else:
+                    path_arr.pop(i)
+            except:
+                pass
+            
+                
+        for i in path_arr:
+            print(i.name, " ", end = '')
+        print(" ")
+        print("To go from {} to {}, we need to make {} steps".format(source.name, destination.name, destination.cost))
+    
 
     def print(self):
         for node in self.nodes:
@@ -59,7 +97,7 @@ graph = Graph()
 # declare the graph nodes
 messi = GraphNode("Messi")
 ronaldo = GraphNode("Ronaldo")
-di_maria = GraphNode("Di Maria")
+di_maria = GraphNode("Di_Maria")
 neymar = GraphNode("Neymar")
 ramos = GraphNode("Ramos")
 bale = GraphNode("Bale")
@@ -100,5 +138,5 @@ ramos.add_neighbor(ronaldo)
 # bale has no friends
 # bale.print()
 
-graph.bfs(messi)
-graph.print()
+#graph.bfs(messi)
+graph.path_finder(messi,ronaldo)
