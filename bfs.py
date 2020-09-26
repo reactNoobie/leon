@@ -19,7 +19,9 @@ class Graph:
                 if not neighbor.visited:
                     neighbor.cost = candidate.cost + 1
                     neighbor.visited = True
+                    neighbor.parent = candidate
                     candidates.append(neighbor)
+                    print(neighbor.name, "neighbor", candidate.name)
                     print("Added", neighbor.name, "to candidates. Cost:", neighbor.cost)
                 else:
                     print(neighbor.name, "already visited! Skipping...")
@@ -27,42 +29,27 @@ class Graph:
         print("---------------End of BFS---------------")
         
     def path_finder(self, source, destination):
-        path_arr = []
-        path_arr.append(source)
-        candidates = list()
-        source.cost = 0
-        source.visited = True
-        if source.name == destination.name: 
-            print("The source is the destination, hence cost is zero and no traversal is needed")
-        else:
-            candidates.append(source)
-            while len(candidates) > 0:
-                candidate = candidates.pop()
-                for neighbour in candidate.neighbors:
-                    if not neighbour.visited:
-                        neighbour.cost = candidate.cost + 1
-                        neighbour.visited = True        
-                        if neighbour.name == destination.name:
-                            path_arr.append(neighbour)
-                        else:
-                            candidates.append(neighbour)
-                            path_arr.append(neighbour)
-        for i in range(len(path_arr)):
-            try:
-                #print(path_arr[i].name, path_arr[i].cost, path_arr[i + 1].name, path_arr[i + 1].cost)
-                if path_arr[i].cost == i and (path_arr[i] in path_arr[i + 1].neighbors):
-                    pass
-                else:
-                    path_arr.pop(i)
-            except:
-                pass
-            
-                
-        for i in path_arr:
-            print(i.name, " ", end = '')
+        x = 1
+        print("******************** By the use of bfs, we are initiating the path search from", source.name, "to", destination.name, "and the travel cost*******************")
+        self.bfs(source)
+        traversal = []
+        traversal.append(destination.name)
+        while destination.parent != None:      
+            traversal.append(destination.parent.name)
+            destination = destination.parent
+        traversal.reverse()
         print(" ")
-        print("To go from {} to {}, we need to make {} steps".format(source.name, destination.name, destination.cost))
-    
+        print("Result Below-")
+        if len(traversal) == 1:
+            print("No route from", source.name, "to", destination.name)
+        else:
+            print("To go from", traversal[0], "to", traversal[-1], "we need to make {} steps".format(len(traversal)-1))
+            for i in range(len(traversal) - 1):
+                print("{} -> ".format(traversal[i]), end = '')
+            print(traversal[-1])
+                
+            
+        
 
     def print(self):
         for node in self.nodes:
@@ -74,6 +61,7 @@ class GraphNode:
         self.neighbors = []
         self.cost = -1
         self.visited = False
+        self.parent = None
 
     def add_neighbor(self, neighbor):
         self.neighbors.append(neighbor)
@@ -97,7 +85,7 @@ graph = Graph()
 # declare the graph nodes
 messi = GraphNode("Messi")
 ronaldo = GraphNode("Ronaldo")
-di_maria = GraphNode("Di_Maria")
+di_maria = GraphNode("Di Maria")
 neymar = GraphNode("Neymar")
 ramos = GraphNode("Ramos")
 bale = GraphNode("Bale")
@@ -134,9 +122,8 @@ neymar.add_neighbor(di_maria)
 # connect ramos with friends
 ramos.add_neighbor(ronaldo)
 # ramos.print()
-
-# bale has no friends
-# bale.print()
+bale.add_neighbor(None)
 
 #graph.bfs(messi)
-graph.path_finder(messi,ronaldo)
+#graph.print()
+graph.path_finder(messi, ramos)
