@@ -29,28 +29,24 @@ class Graph:
         print("---------------End of BFS---------------")
         
     def path_finder(self, source, destination):
-        x = 1
-        print("******************** By the use of bfs, we are initiating the path search from", source.name, "to", destination.name, "and the travel cost*******************")
+        print("******************** By the use of bfs, we are initiating the path search from", source.name, "to", destination.name, "and the travel cost *******************")
         self.bfs(source)
         traversal = []
-        traversal.append(destination.name)
-        while destination.parent != None:      
-            traversal.append(destination.parent.name)
+        #traversal.append(destination.name)
+        while destination != None:      
+            traversal.append(destination.name)
             destination = destination.parent
         traversal.reverse()
         print(" ")
         print("Result Below-")
         if len(traversal) == 1:
-            print("No route from", source.name, "to", destination.name)
+            print("No route from source to destination")
         else:
             print("To go from", traversal[0], "to", traversal[-1], "we need to make {} steps".format(len(traversal)-1))
             for i in range(len(traversal) - 1):
                 print("{} -> ".format(traversal[i]), end = '')
             print(traversal[-1])
-                
-            
-        
-
+                            
     def print(self):
         for node in self.nodes:
             node.print()
@@ -122,7 +118,7 @@ neymar.add_neighbor(di_maria)
 # connect ramos with friends
 ramos.add_neighbor(ronaldo)
 # ramos.print()
-bale.add_neighbor(None)
+#bale.add_neighbor()
 
 #graph.bfs(messi)
 #graph.print()
