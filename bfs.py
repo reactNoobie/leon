@@ -29,7 +29,7 @@ class Graph:
         print("---------------End of BFS---------------")
         
     def path_finder(self, source, destination):
-        print("******************** By the use of bfs, we are initiating the path search from", source.name, "to", destination.name, "and the travel cost *******************")
+        print("********************By the use of bfs, we are initiating the path search from", source.name, "to", destination.name,"and the travel cost *******************")
         self.bfs(source)
         traversal = []
         #traversal.append(destination.name)
@@ -37,7 +37,7 @@ class Graph:
             traversal.append(destination.name)
             destination = destination.parent
         traversal.reverse()
-        print(" ")
+        #print(" ")
         print("Result Below-")
         if len(traversal) == 1:
             print("No route from source to destination")
