@@ -1,0 +1,89 @@
+class GraphNode:
+    def __init__(self,name):
+        self.name = name
+        self.visited = False
+        self.cost = -1
+        self.edges = []
+        
+    def add_edge(self,edge):
+        self.edges.append(edge)
+        
+class Graph:
+    def __init__(self):
+        self.nodes = []
+        self.res_array = []
+    
+    def add_node(self,node):
+        self.nodes.append(node)
+   
+    def DFS(self, head):
+        stack = []
+        stack.append(head)
+        head.cost = 0
+        self.res_array.append(head.name)
+        head.visited = True
+        print("***************Adding our head to the stack and initiating DFS*************")
+        while len(stack) > 0:
+            candidate = stack.pop()
+            print("current candidate =", candidate.name)
+            for edge in candidate.edges:
+                if edge.visited == False:
+                    edge.visited = True
+                    edge.cost = candidate.cost + 1
+                    stack.append(edge)
+                    self.res_array.append(edge.name)
+                    print(self.res_array)
+                else: 
+                    print("Already visited current candidate", candidate.name)
+        print(self.res_array)
+        
+graph = Graph()
+
+messi = GraphNode("Messi")
+ronaldo = GraphNode("Ronaldo")
+di_maria = GraphNode("Di Maria")
+neymar = GraphNode("Neymar")
+ramos = GraphNode("Ramos")
+bale = GraphNode("Bale")
+willian = GraphNode("Willian")
+silva = GraphNode("Silva")
+
+graph.add_node(messi)
+graph.add_node(ronaldo)
+graph.add_node(di_maria)
+graph.add_node(neymar)
+graph.add_node(ramos)
+graph.add_node(bale)
+graph.add_node(willian)
+graph.add_node(silva)
+
+messi.add_edge(di_maria) 
+messi.add_edge(neymar)
+# messi.print()
+
+# connect ronaldo with friends
+ronaldo.add_edge(di_maria)
+ronaldo.add_edge(ramos)
+# ronaldo.print()
+
+# connect di maria with friends
+di_maria.add_edge(messi)
+di_maria.add_edge(ronaldo)
+di_maria.add_edge(neymar)
+# di_maria.print()
+
+# connect neymar with friends
+neymar.add_edge(messi)
+neymar.add_edge(di_maria)
+neymar.add_edge(willian)
+# neymar.print()
+willian.add_edge(silva)
+willian.add_edge(neymar)
+
+silva.add_edge(neymar)
+
+# connect ramos with friends
+ramos.add_edge(ronaldo)
+# ramos.print()
+
+graph.DFS(messi)
